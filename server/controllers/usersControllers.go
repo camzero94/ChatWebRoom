@@ -25,6 +25,7 @@ func Login(c *gin.Context){
     return
   }
 
+  fmt.Println("Body:", body)
   //Look for the user in the database
   var user models.User
    db.DB.First(&user,"email = ?",body.Email)
@@ -58,11 +59,10 @@ func Login(c *gin.Context){
   }
 
   //Send cookie with the token
-
   c.SetSameSite(http.SameSiteLaxMode)
-  c.SetCookie("Authorization",tokenString, 3600 * 24 * 30 ,"","",false,true)
-
+  c.SetCookie("Authorization",tokenString, 3600 * 24  ,"","",true,false)
   c.JSON(http.StatusOK, gin.H{"message": "User logged in successfully."})
+
 }
 
 
@@ -114,3 +114,72 @@ func LogOut (c *gin.Context){
 }
 
 
+
+
+
+// func Index(c *gin.Context) {
+//   c.HTML(http.StatusOK, "index.html", gin.H{
+//   })
+// }
+//
+// func LoginHtmx(c *gin.Context){
+//   log.Println("HEREEEEEE")
+//   // email:= c.Query("email")
+//   // password := c.Query("password")
+//   // //Validate the Form Request
+//   // if email == "" || password == "" {
+//   //   log.Println("Username or password empty")
+//   //   return 
+//   // }
+//   // fmt.Println(email,password)
+//   // 
+//   // //Get the body request
+//   // var body struct {
+//   //   Email    string `json:"email"`
+//   //   Password string `json:"password"`
+//   // }
+//   // body.Email = email 
+//   // body.Password = password
+//   //
+//   //
+//   // //Look for the user in the database
+//   // var user models.User
+//   //  db.DB.First(&user,"email = ?",body.Email)
+//   //
+//   //  if user.ID == 0 {
+//   //   log.Println("Invalid Email or Password.")
+//   //     // c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid Email or Password."})
+//   //     return
+//   //  }
+//   //
+//   // //Compare the password with the hash
+//   // err := bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(body.Password))
+//   //
+//   // if err != nil {
+//   //   log.Println("Invalid Email or Password.")
+//   //   // c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid Email or Password."})
+//   //   return
+//   // }
+//   // //Generate JWT token
+//   // token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+//   //   "sub": user.ID,
+//   //   "exp": time.Now().Add(time.Hour * 24 * 30).Unix(),
+//   // })
+//   //
+//   // //Sign the token and get the complete Token
+//   // tokenString, err := token.SignedString([]byte(os.Getenv("SECRET")))
+//   //
+//   // if err != nil {
+//   //   c.JSON(http.StatusBadRequest, gin.H{"error": "Error signing the token."})
+//   //   return
+//   // }
+//   //
+//   // //Send cookie with the token
+//   //
+//   // c.SetSameSite(http.SameSiteLaxMode)
+//   // c.SetCookie("Authorization",tokenString, 3600 * 24 * 30 ,"","",false,true)
+//   //
+//   // c.JSON(http.StatusOK, gin.H{"message": "User logged in successfully."})
+//
+// }
+//
