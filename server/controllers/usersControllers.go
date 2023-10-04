@@ -14,6 +14,8 @@ import (
 
 func Login(c *gin.Context){
   
+
+
   //Get the body request
   var body struct {
     Email    string `json:"email"`
@@ -45,8 +47,13 @@ func Login(c *gin.Context){
   }
   //Generate JWT token
 
+  var UserToken struct{
+    UserId string 
+    Username string 
+  }
+  userTk := &UserToken{UserId: string(user.ID),Username: user.Email,}
   token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-    "sub": user.ID,
+    "sub": userTk, 
     "exp": time.Now().Add(time.Hour * 24 * 30).Unix(),
   })
 

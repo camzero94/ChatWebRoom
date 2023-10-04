@@ -56,7 +56,7 @@ func (h *Handler) JoinRoom(c *gin.Context) {
 		return
 	}
 
-	//ws/joinRoom/:roomID?username=1&clientID=1234
+	//ws/joinRoom/:roomID?username=1&userID=1234
 	//Params
 	roomID := c.Param("roomID")
 	//Queries

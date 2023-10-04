@@ -1,15 +1,15 @@
 import jwt from 'jwt-decode'
 import Cookies from 'universal-cookie'
+import { API_URL , WS_API_URL} from '../constants/constants'
 
 export const getCookies = (key: string) => {
-
   try {
     const cookies = new Cookies()
     const val = cookies.get(key)
     if (val === undefined) {
       return ''
     }
-    return  val 
+    return val
   } catch (err) {
     console.log(err)
   }
@@ -37,8 +37,21 @@ export const asyncDecodeUser = async () => {
   }
 }
 
+export const asyncJoinRoom = async (
+  roomID: string,
+  username: string,
+  userID: string
+) => {
+
+  try {
+
+    const ws = new WebSocket(`${WS_API_URL}/ws/joinRoom/${roomID}?username=${username}&userID=${userID}`)
+
+  } catch (err) {}
+}
+
 export const asyncFetchLogin = async (email: string, password: string) => {
-  const request = new Request('http://localhost:8080/login', {
+  const request = new Request(`${API_URL}/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -49,6 +62,9 @@ export const asyncFetchLogin = async (email: string, password: string) => {
 
   try {
     const res = await fetch(request)
+    if (!res.ok) {
+      throw new Error('Network response was not ok')
+    }
     const data = await res.json()
     const userId = await asyncDecodeUser()
     return { message: 'User succesfully Logged', userId: userId }
