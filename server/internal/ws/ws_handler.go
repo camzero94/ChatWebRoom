@@ -2,7 +2,7 @@ package ws
 
 import (
 	"net/http"
-
+  "fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 )
@@ -50,6 +50,7 @@ var upgrader = websocket.Upgrader{
 
 func (h *Handler) JoinRoom(c *gin.Context) {
 
+  fmt.Println("JoinRoom")
 	conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

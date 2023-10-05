@@ -47,13 +47,15 @@ func Login(c *gin.Context){
   }
   //Generate JWT token
 
-  var UserToken struct{
+  type UserToken struct{
     UserId string 
     Username string 
   }
-  userTk := &UserToken{UserId: string(user.ID),Username: user.Email,}
+
+  userTk := UserToken{fmt.Sprint(user.ID),user.Email}
   token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-    "sub": userTk, 
+    "userId": userTk.UserId,  
+    "username": userTk.Username,
     "exp": time.Now().Add(time.Hour * 24 * 30).Unix(),
   })
 

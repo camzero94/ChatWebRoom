@@ -1,7 +1,7 @@
 
 namespace User{
   export interface UserType{
-    userId: number
+    userId: string 
     username: string
   }
 }

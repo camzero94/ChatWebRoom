@@ -1,6 +1,8 @@
 import jwt from 'jwt-decode'
 import Cookies from 'universal-cookie'
-import { API_URL , WS_API_URL} from '../constants/constants'
+import { API_URL } from '../constants/constants'
+
+
 
 export const getCookies = (key: string) => {
   try {
@@ -15,9 +17,12 @@ export const getCookies = (key: string) => {
   }
 }
 export const asyncDecodeUser = async () => {
+
   try {
+
     let cookie = document.cookie
     let token = ''
+
     if (cookie.includes(';')) {
       token = cookie.split(';')[1].split('=')[1]
       console.log(token, 'Inside')
@@ -25,11 +30,18 @@ export const asyncDecodeUser = async () => {
       token = cookie.split('=')[1]
     }
 
+    console.log("Token",token)
+
     const cookies = new Cookies()
     //Decode JWT TOKEN
     const decoded: any = jwt(token)
+    console.log("decoded",decoded)
+
     //Set cookie
-    cookies.set('userId', decoded.sub)
+    cookies.set('userId', decoded.userId)
+
+    //Decode using decodeURIComponent
+    cookies.set('username', decoded.username)
 
     return decoded.sub
   } catch (err) {
@@ -37,18 +49,6 @@ export const asyncDecodeUser = async () => {
   }
 }
 
-export const asyncJoinRoom = async (
-  roomID: string,
-  username: string,
-  userID: string
-) => {
-
-  try {
-
-    const ws = new WebSocket(`${WS_API_URL}/ws/joinRoom/${roomID}?username=${username}&userID=${userID}`)
-
-  } catch (err) {}
-}
 
 export const asyncFetchLogin = async (email: string, password: string) => {
   const request = new Request(`${API_URL}/login`, {
