@@ -3,16 +3,25 @@ import { asyncFetchLogin } from '../utils/util'
 import Particle from '@/components/Particles/Particles'
 import Image from 'next/image'
 import pinneapple from '../public/assets/pineapple.png'
+import {useRouter} from 'next/router'
+import { useContext } from 'react'
+import {IContext,Auth_Ctx } from '../store/context'
 
 export default function Login() {
 
+  const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const {setUser} = useContext(Auth_Ctx) as IContext
 
   const submitHandler = async (e: any) => {
     e.preventDefault()
     const mssg = await asyncFetchLogin(email, password)
-    console.log(mssg)
+     
+    if (mssg && mssg.message === 'User succesfully Logged'){
+      setUser({userId: mssg.userId, username: mssg.username})
+      router.push('/liveChat')
+    }
   }
 
 

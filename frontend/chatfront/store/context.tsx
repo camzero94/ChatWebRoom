@@ -3,6 +3,9 @@ import { Dispatch, SetStateAction } from 'react'
 import { useRouter } from 'next/router'
 import { getCookies } from '../utils/util'
 import User from '../namespaces/User'
+import { Websocket_Ctx } from './websocketContext'
+import { useContext } from 'react'
+import { WebContext } from './websocketContext'
 
 
 
@@ -22,6 +25,7 @@ interface IProps {
 }
 
 const AuthCtxProvider: React.FC<IProps> = ({ children }) => {
+  const {conn} = useContext(Websocket_Ctx) as WebContext
   const [authenticated, setAuthenticated] = useState<boolean>(false)
   const [user, setUser] = useState<User.UserType >({
     userId: '',
@@ -30,22 +34,27 @@ const AuthCtxProvider: React.FC<IProps> = ({ children }) => {
   const router = useRouter()
 
   useEffect(() => {
+
     const userId = getCookies('userId')
     const username = getCookies('username')
-
-    console.log(userId, username)
-    if (userId === '' || userId === undefined) {
+    if (!userId || !username || userId === '' || username === '' || userId === 'undefined' || username === 'undefined' || userId === 'undefined' || username === 'undefined') {
+      console.log('Enter Hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
       if (window.location.pathname === '/signUp') {
-        router.push('/login')
         return
       }
+      if(conn){
+        conn.close()
+        }
+      router.push('/login')
     } else {
-      setUser({ userId: userId, username: username })
+      setUser({ userId: userId, username: username})
       setAuthenticated(true)
       router.push('/liveChat')
     }
+
   }, [authenticated])
 
+  console.log("AUTH  ",authenticated)
   const statesPage = {
     authenticated: authenticated,
     setAuthenticated: setAuthenticated,

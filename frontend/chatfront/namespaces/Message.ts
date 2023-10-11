@@ -1,7 +1,7 @@
 
 namespace Message{
   export interface MessageType {
-    content: string 
+    content?: string 
     clientId: string
     username: string
     roomId: string

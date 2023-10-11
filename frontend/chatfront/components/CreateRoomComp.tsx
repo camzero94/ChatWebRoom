@@ -4,12 +4,11 @@ interface IPropsInputRoom{
   roomName:string
   setRoomName?:React.Dispatch<React.SetStateAction<string>>
   handleCreateRoom:() =>Promise<void>
+  handleLogOut:() => void
   }
 
 
-const CreateRoomComp:React.FC <IPropsInputRoom> = ({roomName,setRoomName,handleCreateRoom}) => {
-
-
+const CreateRoomComp:React.FC <IPropsInputRoom> = ({roomName,setRoomName,handleCreateRoom,handleLogOut}) => {
    
   return (
       <div className='flex justify-center  content-center  items-center mt-3 p-5'>
@@ -27,6 +26,11 @@ const CreateRoomComp:React.FC <IPropsInputRoom> = ({roomName,setRoomName,handleC
           onClick={()=>handleCreateRoom()}
         >
           Create Room
+        </button>
+        <button className=' hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50  bg-blue-700 border rounded-md text-white p-2 md:ml-4 ml-4 '
+          onClick={()=>handleLogOut()}
+        >
+          Log Out
         </button>
       </div>
   )
