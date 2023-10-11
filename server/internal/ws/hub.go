@@ -1,5 +1,7 @@
 package ws
-
+import (
+  "fmt"
+)
 type Room struct {
 	ID      string             `json:"id"`
 	Name    string             `json:"name"`
@@ -40,6 +42,7 @@ func (h *Hub) Run() {
           if _,ok := h.Rooms[cl.RoomID].Clients[cl.ID]; ok{
             // broadcast if user has left the room
             if len(h.Rooms[cl.RoomID].Clients) > 0 {
+              fmt.Println("Broadcasting has left the room")
               m := &Message{
                 Content: cl.Username + " has left the room",
                 RoomID: cl.RoomID,
@@ -53,10 +56,14 @@ func (h *Hub) Run() {
           }
         }
       case m := <- h.Broadcast:
+
+        fmt.Println("Broadcasting message ",m)
         //If room exists
         if _,ok := h.Rooms[m.RoomID]; ok{
+        fmt.Println("Broadcasting inside if ",)
           //Send message to all Clients in room
           for _,cl := range h.Rooms[m.RoomID].Clients{
+            fmt.Println("Broadcasting clients",cl.Username)
             cl.Message <- m
           }
         }

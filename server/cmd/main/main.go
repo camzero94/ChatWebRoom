@@ -36,6 +36,8 @@ func main() {
 	r.GET("/logout", controllers.LogOut)
 
 	r.POST("/ws/createRoom", wsHandler.CreateRoom)
+	r.DELETE("/ws/deleteRoom", wsHandler.DeleteRoom)
+
 	r.GET("/ws/joinRoom/:roomID", wsHandler.JoinRoom)
 	r.GET("/ws/getRooms", wsHandler.GetRooms)
 	r.GET("/ws/getClients/:roomID", wsHandler.GetClientsInRoom)

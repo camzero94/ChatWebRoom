@@ -16,6 +16,7 @@ type CreateRoomReq struct {
 	Name string `json:"name"`
 }
 
+
 func NewHandler(h *Hub) *Handler {
 	return &Handler{
 		hub: h,
@@ -50,12 +51,12 @@ var upgrader = websocket.Upgrader{
 
 func (h *Handler) JoinRoom(c *gin.Context) {
 
-  fmt.Println("JoinRoom")
 	conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+  fmt.Println("JoinRoom")
 
 	//ws/joinRoom/:roomID?username=1&userID=1234
 	//Params
@@ -86,6 +87,8 @@ func (h *Handler) JoinRoom(c *gin.Context) {
 	//ReadMessage()
 	cl.ReadMessage(h.hub)
 
+
+
 }
 
 type RoomRes struct {
@@ -114,6 +117,7 @@ func (h *Handler) GetClientsInRoom(c *gin.Context) {
 
   var clients []ClientRes
   roomID := c.Param("roomID")
+  fmt.Println("RoomId", roomID)
 
   if _,ok := h.hub.Rooms[roomID]; !ok{
     clients = make([]ClientRes, 0)
@@ -126,12 +130,27 @@ func (h *Handler) GetClientsInRoom(c *gin.Context) {
     })
   }
 
+  fmt.Println("Clients Herrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",clients)
+
   c.JSON(http.StatusOK, clients)
 
 
 }
 
+func (h *Handler ) DeleteRoom(c *gin.Context){
 
+
+  roomId := c.Query("roomId")
+  roomName:= c.Query("roomName")
+
+  if _,ok := h.hub.Rooms[roomId]; !ok{
+    c.JSON(http.StatusBadRequest, gin.H{"error": "Room not found"})
+    return
+  }
+
+  delete(h.hub.Rooms, roomId)
+  c.JSON(http.StatusOK, gin.H{"message": `Room deleted ` + roomName}) 
+}
 
 
 
