@@ -10,13 +10,17 @@ import (
 )
 
 func init() {
-	db.LoadEnvVariables()
+	// db.LoadEnvVariables()
 	db.ConnectToDB()
 }
 
 var r *gin.Engine
 
 func main() {
+
+  // db:= os.Getenv("HOST_BACKEND")
+  // fmt.Println("DB: ",db)
+
 
 	r = gin.Default()
 
@@ -42,7 +46,7 @@ func main() {
 	r.GET("/ws/getRooms", wsHandler.GetRooms)
 	r.GET("/ws/getClients/:roomID", wsHandler.GetClientsInRoom)
 
-	Start("127.0.0.1:8080") // listen and serve on 0.0.0.0:8080
+	Start("0.0.0.0:8080") // listen and serve on 0.0.0.0:8080
 
 }
 

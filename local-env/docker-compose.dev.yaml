@@ -1,7 +1,63 @@
 
 version: "3"
 services:
-  postgresDB:
+  nextjs:
+    container_name: frontNext 
+    build:
+      context: ../frontend/chatfront
+      dockerfile: ../frontend/chatfront/Dockerfile.dev
+    image: frontnextjs:dev
+    restart: unless-stopped
+    env_file: dev.env
+    # environment:
+    #   HOST: 0.0.0.0
+    #   CMS_HOST: http://strapi:1337
+
+    volumes:
+      - ../frontend/chatfront/pages:/app/pages/:cached
+      - ../frontend/chatfront/components:/app/components/:cached
+      - ../frontend/chatfront/constants:/app/constants/:cached
+      - ../frontend/chatfront/public:/app/public/:cached
+      - ../frontend/chatfront/store:/app/store/:cached
+      - ../frontend/chatfront/namespaces:/app/namespaces/:cached
+      - ../frontend/chatfront/utils:/app/utils/:cached
+      - ../frontend/chatfront/styles:/app/styles/:cached
+    ports:
+      - "3001:3001"
+    depends_on:
+      - backend
+    networks:
+      - postgresDB
+
+#   frontendNext:
+#     container_name: frontendNext
+#     restart: unless-stopped
+#     build:
+#       context: ../frontend/chatfront
+#       dockerfile: ../frontend/chatfront/Dockerfile.dev
+#     image: frontendnext:dev
+#     env_file: dev.env
+
+  backend:
+    container_name: backendGo
+    restart: unless-stopped
+    build:
+      context: ../server
+      dockerfile: ../server/Dockerfile.dev
+    image: backend:dev
+    env_file: dev.env
+    # environment:
+    #   DATABASE_CLIENT: postgres
+    #   DATABASE_HOST: postgres 
+    #   DATABASE_PORT: 5432
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - postgresDB
+
+  postgres:
     container_name: postgresDB 
     # platform: linux/amd64 #for platform error on Apple M1 chips
     restart: unless-stopped
@@ -30,7 +86,7 @@ services:
     ports:
       - "5050:80"
     depends_on:
-      - postgresDB
+      - postgres
     volumes:
       - pgadmin-data:/var/lib/pgadmin
     networks:
