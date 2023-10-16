@@ -1,5 +1,5 @@
 <p align="center"><img width=12.5% src="https://github.com/camzero94/ChatWebRoom/blob/main/media/fruit-salad.png"></p>
-<p align="center"><img width=60% src="https://github.com/camzero94/RestaurantWebAPP/blob/main/media/Title.png"></p>
+<p align="center"><img width=60% src="https://github.com/camzero94/ChatWebRoom/blob/main/media/Title.jpg"></p>
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
@@ -15,14 +15,14 @@
 Chat room website application that allow users to connect in private and customizable rooms. All messages are encrypted using wss protocol (Web Socket Secure).
 
 ## Framework Overview
-<p align ="center"><img src="https://github.com/camzero94/ChatWebRoom/blob/main/media/ChatRoom.png" width=40%></p>
+<p align ="center"><img src="https://github.com/camzero94/ChatWebRoom/blob/main/media/ChatRoom.png" width=60%></p>
 
 - Sign up and login to the main room and create your custom room via https request to the API endpoint.
 - Join room via wss protocol to any of the aviable rooms created in the hub.
 <br>
 
 ## Design 
-<p align="center"><img src="https://github.com/camzero94/ChatWebRoom/blob/main/media/Arch_chatroom.png" width=40%></p>
+<p align="center"><img src="https://github.com/camzero94/ChatWebRoom/blob/main/media/Arch_chatroom.png" width=60%></p>
 
 - A hub is atuatically created, this is where the rooms will be hosted.
 - Every room can have multiple clients and every client can have multiple rooms.
