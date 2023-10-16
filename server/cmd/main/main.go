@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	db.LoadEnvVariables()
+	// db.LoadEnvVariables()
 	db.ConnectToDB()
 }
 
@@ -18,11 +18,15 @@ var r *gin.Engine
 
 func main() {
 
+  // db:= os.Getenv("HOST_BACKEND")
+  // fmt.Println("DB: ",db)
+
+
 	r = gin.Default()
 
 	//Allow CORS
 	config := cors.DefaultConfig()
-	config.AllowOrigins = []string{"http://localhost:3000", "http://localhost:8080", "http://"}
+  config.AllowOrigins = []string{"http://localhost:3000", "http://localhost:8080", "http://localhost:3001","http://room.camzerocol.com","https://room.camzerocol.com"}
 	config.AllowCredentials = true
 	r.Use(cors.New(config))
 
@@ -42,7 +46,7 @@ func main() {
 	r.GET("/ws/getRooms", wsHandler.GetRooms)
 	r.GET("/ws/getClients/:roomID", wsHandler.GetClientsInRoom)
 
-	Start("127.0.0.1:8080") // listen and serve on 0.0.0.0:8080
+	Start("0.0.0.0:8080") // listen and serve on 0.0.0.0:8080
 
 }
 

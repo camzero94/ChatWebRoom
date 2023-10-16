@@ -42,9 +42,6 @@ const AuthCtxProvider: React.FC<IProps> = ({ children }) => {
       if (window.location.pathname === '/signUp') {
         return
       }
-      if(conn){
-        conn.close()
-        }
       router.push('/login')
     } else {
       setUser({ userId: userId, username: username})

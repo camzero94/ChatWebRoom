@@ -5,7 +5,6 @@ import { Websocket_Ctx } from '../store/websocketContext'
 import { WebContext } from '../store/websocketContext'
 import { useRouter } from 'next/router'
 import User from '../namespaces/User'
-import { API_URL } from '@/constants/constants'
 
 import { Auth_Ctx, IContext } from '../store/context'
 
@@ -41,7 +40,7 @@ export default function ChatApp() {
     const roomId = conn.url.split('/')[5].split('?')[0]
     async function handleGetUsers() {
       try {
-        const req = new Request(`${API_URL}/ws/getClients/${roomId}`, {
+        const req = new Request(`${process.env.API_URL}/ws/getClients/${roomId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

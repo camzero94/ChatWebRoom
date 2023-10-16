@@ -3,7 +3,6 @@ import JoinRoomCompList from '../components/JoinRoomCompList'
 import { useState, useEffect, useContext } from 'react'
 import Room from '../namespaces/Room'
 import { v4 as uuidv4 } from 'uuid'
-import { WS_API_URL, API_URL } from '../constants/constants'
 import { Websocket_Ctx, WebContext } from '../store/websocketContext'
 import { useRouter } from 'next/router'
 import { deleteCookies } from '../utils/util'
@@ -24,7 +23,7 @@ export default function LiveChat() {
   const handleDeleteRoom = async (roomID: string, roomName: string) => {
     try {
       const request = new Request(
-        `${API_URL}/ws/deleteRoom?roomId=${roomID}&roomName=${roomName}`,
+        `${process.env.API_URL}/ws/deleteRoom?roomId=${roomID}&roomName=${roomName}`,
         {
           method: 'DELETE',
           headers: {
@@ -54,7 +53,7 @@ export default function LiveChat() {
   ) => {
     try {
       const ws = new WebSocket(
-        `${WS_API_URL}/ws/joinRoom/${roomID}?username=${username}&userID=${userID}`
+        `${process.env.WS_API_URL}/ws/joinRoom/${roomID}?username=${username}&userID=${userID}`
       )
       if (ws.onerror) {
         ws.close()
@@ -75,7 +74,7 @@ export default function LiveChat() {
 
   const handleCreateRoom = async () => {
     if (roomName !== 'undefined' && roomName !== '') {
-      const reqCreateRoom = new Request(`${API_URL}/ws/createRoom`, {
+      const reqCreateRoom = new Request(`${process.env.API_URL}/ws/createRoom`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -100,7 +99,7 @@ export default function LiveChat() {
   }
 
   const handleGetRooms = async () => {
-    const reqCreateRoom = new Request(`${API_URL}/ws/getRooms`, {
+    const reqCreateRoom = new Request(`${process.env.API_URL}/ws/getRooms`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

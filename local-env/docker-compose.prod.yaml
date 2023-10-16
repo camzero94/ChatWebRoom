@@ -5,26 +5,26 @@ services:
     container_name: frontNext 
     build:
       context: ../frontend
-      dockerfile: ../frontend/Dockerfile.dev
+      dockerfile: ../frontend/Dockerfile.prod
       # args:
       #   - API_URL=http://backend:8080
       #   - WS_API_URL=ws://backend:8080
     image: frontnextjs:prod
     restart: unless-stopped
     # env_file: dev.env
-    environment:
-      NEXT_PUBLIC_API_URL: http://localhost:8080
-      NEXT_PUBLIC_WS_API_URL: ws:http://localhost:8080
+    # environment:
+    #   NEXT_PUBLIC_API_URL: http://localhost:8080
+    #   NEXT_PUBLIC_WS_API_URL: ws:http://localhost:8080
 
-    volumes:
-      - ../frontend/pages:/app/pages/:cached
-      - ../frontend/components:/app/components/:cached
-      - ../frontend/constants:/app/constants/:cached
-      - ../frontend/public:/app/public/:cached
-      - ../frontend/store:/app/store/:cached
-      - ../frontend/namespaces:/app/namespaces/:cached
-      - ../frontend/utils:/app/utils/:cached
-      - ../frontend/styles:/app/styles/:cached
+    # volumes:
+    #   - ../frontend/pages:/app/pages/:cached
+    #   - ../frontend/components:/app/components/:cached
+    #   - ../frontend/constants:/app/constants/:cached
+    #   - ../frontend/public:/app/public/:cached
+    #   - ../frontend/store:/app/store/:cached
+    #   - ../frontend/namespaces:/app/namespaces/:cached
+    #   - ../frontend/utils:/app/utils/:cached
+    #   - ../frontend/styles:/app/styles/:cached
     ports:
       - "3001:3000"
     depends_on:
@@ -72,23 +72,23 @@ services:
     networks:
       - postgresDB
 
-  pgadmin:
-    container_name: pgadmin4_container
-    image: dpage/pgadmin4
-    restart: unless-stopped 
-    env_file: dev.env
-    ports:
-      - "5050:80"
-    depends_on:
-      - postgres
-    volumes:
-      - pgadmin-data:/var/lib/pgadmin
-    networks:
-      - postgresDB
+  # pgadmin:
+  #   container_name: pgadmin4_container
+  #   image: dpage/pgadmin4
+  #   restart: unless-stopped 
+  #   env_file: dev.env
+  #   ports:
+  #     - "5050:80"
+  #   depends_on:
+  #     - postgres
+  #   volumes:
+  #     - pgadmin-data:/var/lib/pgadmin
+  #   networks:
+  #     - postgresDB
 
 volumes:
   postgres-data:
-  pgadmin-data:
+  # pgadmin-data:
 
 networks:
   postgresDB:
