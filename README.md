@@ -38,7 +38,7 @@ Chat room website application that allow users to connect in private and customi
 
 ## Live Demo 
 
-- Please visit [Live Demo](room.camzerocol.com/signUp)
+- Please visit [Live Demo](https://room.camzerocol.com/signUp)
 
 ## Pending Features
 - In future plans add more features such as private rooms, level permissions for users (admin, users,etc),  add layer when websockets broken.
