@@ -1,5 +1,4 @@
 <p align="center"><img width=12.5% src="https://github.com/camzero94/ChatWebRoom/blob/main/media/fruit-salad.png"></p>
-<p align="center"><img width=60% src="https://github.com/camzero94/ChatWebRoom/blob/main/media/Title.jpg"></p>
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
@@ -22,7 +21,7 @@ Chat room website application that allow users to connect in private and customi
 <br>
 
 ## Design 
-<p align="center"><img src="https://github.com/camzero94/ChatWebRoom/blob/main/media/Arch_chatroom.png" width=60%></p>
+<p align="center"><img src="https://github.com/camzero94/ChatWebRoom/blob/main/media/arch_chat.png" width=60%></p>
 
 - A hub is atuatically created, this is where the rooms will be hosted.
 - Every room can have multiple clients and every client can have multiple rooms.
