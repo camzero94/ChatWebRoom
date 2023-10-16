@@ -26,7 +26,7 @@ func main() {
 
 	//Allow CORS
 	config := cors.DefaultConfig()
-	config.AllowOrigins = []string{"http://localhost:3000", "http://localhost:8080", "http://"}
+  config.AllowOrigins = []string{"http://localhost:3000", "http://localhost:8080", "http://localhost:3001","http://room.camzerocol.com","https://room.camzerocol.com"}
 	config.AllowCredentials = true
 	r.Use(cors.New(config))
 

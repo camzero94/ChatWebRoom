@@ -1,12 +1,12 @@
 import Room from '../namespaces/Room'
 import Image from 'next/image'
-import stwb from '../public/assets/strawberry.png'
 import { Auth_Ctx, IContext } from '../store/context'
-import { WS_API_URL } from '../constants/constants'
 
 import { useContext } from 'react'
 import { WebContext, Websocket_Ctx } from '../store/websocketContext'
 import { useRouter } from 'next/router'
+
+import { imageLoader } from '../utils/util'
 
 interface PropsRooms {
   rooms: Room.RoomType[]
@@ -26,7 +26,9 @@ const JoinRoomCompList: React.FC<PropsRooms> = ({ rooms, joinRoom,deleteRoom }) 
       <div className='flex flex-row justify-center content-center items-center'>
         <div className='flex  font-bold text-xl'>Aviable Rooms</div>
         <span className='ml-2'>
-          <Image src={stwb} alt='stwb' width={35} height={35} />
+          <Image 
+          loader={imageLoader}
+          src={'strawberry.png'} alt='stwb' width={35} height={35} />
         </span>
       </div>
 

@@ -1,12 +1,11 @@
 import jwt from 'jwt-decode'
 import Cookies from 'universal-cookie'
-import { API_URL } from '../constants/constants'
 
-export const getCookies =(key: string) => {
+export const getCookies = (key: string) => {
   try {
     const cookies = new Cookies()
     const val = cookies.get(key)
-    console.log('Key Cookie'+ key, 'Value Cookie '+ val)
+    console.log('Key Cookie' + key, 'Value Cookie ' + val)
     if (val === undefined) {
       return ''
     }
@@ -15,46 +14,41 @@ export const getCookies =(key: string) => {
     console.log(err)
   }
 }
-export const deleteCookies=(key: string) => {
+export const deleteCookies = (key: string) => {
   try {
     const cookies = new Cookies()
     cookies.remove(key)
-    console.log('Key Cookie Deleted'+ key)
+    console.log('Key Cookie Deleted' + key)
   } catch (err) {
     console.log(err)
   }
 }
-export const asyncDecodeUser = async () => {
-
+export const asyncDecodeUser = async (token: string) => {
   try {
-    let cookie = document.cookie
-    let token = ''
-
-    if (cookie.includes(';')) {
-      token = cookie.split(';')[1].split('=')[1]
-    } else {
-      token = cookie.split('=')[1]
+    const cookie = new Cookies()
+    console.log('Tokenaaaa', token)
+    if (token && token !== '') {
+      console.log('Inside', token)
+      //Decode JWT TOKEN
+      const decoded: any = jwt(token)
+      //Set cookie
+      if (decoded && decoded.userId !== '' && decoded.username !== '') {
+        cookie.set('userId', decoded.userId)
+        //Decode using decodeURIComponent
+        cookie.set('username', decoded.username)
+        return { userId: decoded.userId, username: decoded.username }
+      } else {
+        throw new Error('User Cannot Login, Cannot Set Cookie')
+      }
     }
-
-    const cookies = new Cookies()
-    //Decode JWT TOKEN
-    const decoded: any = jwt(token)
-
-    //Set cookie
-    if (decoded && decoded.userId !== '' && decoded.username !== '') {
-      cookies.set('userId', decoded.userId)
-      //Decode using decodeURIComponent
-      cookies.set('username', decoded.username)
-      return { userId: decoded.userId, username: decoded.username }
-    }
-    throw new Error('User Cannot Login, Cannot Set Cookie')
   } catch (err) {
     console.log(err)
   }
 }
 
 export const asyncFetchLogin = async (email: string, password: string) => {
-  const request = new Request(`${API_URL}/login`, {
+  console.log(process.env.API_URL)
+  const request = new Request(`${process.env.API_URL}/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -69,11 +63,21 @@ export const asyncFetchLogin = async (email: string, password: string) => {
       throw new Error('Network response was not ok')
     }
     const data = await res.json()
-    const responseUser = await asyncDecodeUser()
+    console.log('Login Response Data=======', data)
+    const responseUser = await asyncDecodeUser(data.token)
     if (responseUser) {
-      return { message: 'User succesfully Logged', username: responseUser.username , userId: responseUser.userId}
-    } 
+      return {
+        message: 'User succesfully Logged',
+        username: responseUser.username,
+        userId: responseUser.userId,
+      }
+    }
   } catch (err) {
     console.log(err)
   }
 }
+
+export const imageLoader= ({ src, width, quality }:{src?:string,width?:number,quality?:number}) => {
+  return `https://mybucketappdeh.s3.ap-northeast-2.amazonaws.com/${src}`
+}
+ 

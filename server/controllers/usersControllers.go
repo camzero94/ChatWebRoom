@@ -68,9 +68,9 @@ func Login(c *gin.Context){
   }
 
   //Send cookie with the token
-  c.SetSameSite(http.SameSiteLaxMode)
-  c.SetCookie("Authorization",tokenString, 3600 * 24  ,"","",true,false)
-  c.JSON(http.StatusOK, gin.H{"message": "User logged in successfully."})
+  // c.SetSameSite(http.SameSiteNoneMode)
+  // c.SetCookie("Authorization",tokenString, 3600 * 24  ,"","room.camzerocol.com",true,false)
+  c.JSON(http.StatusOK, gin.H{"message": "User logged in successfully.", "token": tokenString})
 
 }
 
