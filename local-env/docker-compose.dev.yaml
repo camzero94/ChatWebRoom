@@ -9,12 +9,12 @@ services:
       # args:
       #   - API_URL=http://backend:8080
       #   - WS_API_URL=ws://backend:8080
-    image: frontnextjs:prod
+    image: frontnextjs:dev
     restart: unless-stopped
-    # env_file: dev.env
+    env_file: dev.env
     environment:
       NEXT_PUBLIC_API_URL: http://localhost:8080
-      NEXT_PUBLIC_WS_API_URL: ws:http://localhost:8080
+      NEXT_PUBLIC_WS_API_URL: ws://localhost:8080
 
     volumes:
       - ../frontend/pages:/app/pages/:cached
