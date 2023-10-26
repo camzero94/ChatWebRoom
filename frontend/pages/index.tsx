@@ -1,4 +1,3 @@
-import { Inter } from 'next/font/google'
 import router from 'next/router'
 import React, { useEffect, useState ,useContext} from 'react'
 
