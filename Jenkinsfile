@@ -1,16 +1,26 @@
 pipeline {
     agent any // Use any available agent to run the pipeline
+    tools {
+        go 1.21.3
+    }
+    environment {
+        GO121MODULE = 'on'
+        CGO_ENABLED = 0 
+        GOPATH = "${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_ID}"
+    }
     triggers {
         pollSCM '*/2 * * * *'
       }
     stages {
         stage('Build') {
             steps {
-                // Build your code (e.g., using a build tool like Maven or Gradle)
                 echo 'building...'
+                // Change Directory to server/
+                dir('server/'){
+                    sh 'make build'
+                }
             }
         }
-
         stage('Test') {
             steps {
                 // Run tests (modify the command according to your testing framework)
