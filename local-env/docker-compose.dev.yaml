@@ -11,10 +11,12 @@ services:
       #   - WS_API_URL=ws://backend:8080
     image: frontnextjs:dev
     restart: unless-stopped
-    env_file: dev.env
+    # env_file: dev.env
     environment:
-      NEXT_PUBLIC_API_URL: http://localhost:8080
-      NEXT_PUBLIC_WS_API_URL: ws://localhost:8080
+      # NEXT_PUBLIC_API_URL: http://localhost:8080
+      # NEXT_PUBLIC_WS_API_URL: ws://localhost:8080
+      - NEXT_PUBLIC_API_URL=${API_URL}
+      - NEXT_PUBLIC_WS_API_URL=${WS_API_URL}
 
     volumes:
       - ../frontend/pages:/app/pages/:cached
@@ -35,15 +37,18 @@ services:
   backend:
     container_name: backend
     restart: unless-stopped
+    image: backend:dev
     build:
       context: ../server
       dockerfile: ../server/Dockerfile.dev
-    image: backend:dev
-    env_file: dev.env
-    # environment:
-    #   DATABASE_CLIENT: postgres
-    #   DATABASE_HOST: postgres 
-    #   DATABASE_PORT: 5432
+    # env_file: dev.env
+    environment:
+      - DATABASE_CLIENT=${DB_CLIENT}
+      - DATABASE_HOST=${DB_HOST}
+      - DATABASE_PORT=${DB_PORT}
+      # DATABASE_CLIENT: postgres
+      # DATABASE_HOST: postgres 
+      # DATABASE_PORT: 5432
     ports:
       - "8080:8080"
     depends_on:
@@ -55,43 +60,44 @@ services:
     container_name: postgresDB 
     # platform: linux/amd64 #for platform error on Apple M1 chips
     restart: unless-stopped
-    env_file: dev.env
+    # env_file: dev.env
     image: postgres:12.0-alpine
-
-    # ---- Defined in dev.env ----
-    # environment:
-    #   POSTGRES_USER: ${DATABASE_USERNAME}
-    #   POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
-    #   POSTGRES_DB: ${DATABASE_NAME}
     volumes:
       - postgres-data:/var/lib/postgresql/data/ #using a volume
       #- ./data:/var/lib/postgresql/data/ # if you want to use a bind folder
 
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
     ports:
       - "5432:5432"
     networks:
       - postgresDB
 
-  # pgadmin:
-  #   container_name: pgadmin4_container
-  #   image: dpage/pgadmin4
-  #   restart: unless-stopped 
-  #   env_file: dev.env
-  #   ports:
-  #     - "5050:80"
-  #   depends_on:
-  #     - postgres
-  #   volumes:
-  #     - pgadmin-data:/var/lib/pgadmin
-  #   networks:
-  #     - postgresDB
-  #
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: unless-stopped 
+    # env_file: dev.env
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    networks:
+      - postgresDB
+
 
 
 
 volumes:
   postgres-data:
-  # pgadmin-data:
+  pgadmin-data:
 
 networks:
   postgresDB:

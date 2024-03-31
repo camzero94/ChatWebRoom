@@ -5,7 +5,6 @@ import (
     "os"
     "fmt"
     "ariga.io/atlas-provider-gorm/gormschema"
-    _ "ariga.io/atlas-go-sdk/recordriver" 
     "github.com/camzero94/server/models"
 )
 

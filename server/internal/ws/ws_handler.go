@@ -41,7 +41,7 @@ func (h *Handler) CreateRoom(c *gin.Context) {
 
 }
 
-var upgrader = websocket.Upgrader{
+var Upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
 	CheckOrigin: func(r *http.Request) bool {
@@ -51,7 +51,7 @@ var upgrader = websocket.Upgrader{
 
 func (h *Handler) JoinRoom(c *gin.Context) {
 
-	conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
+	conn, err := Upgrader.Upgrade(c.Writer, c.Request, nil)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

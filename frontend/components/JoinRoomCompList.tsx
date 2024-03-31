@@ -20,7 +20,6 @@ const JoinRoomCompList: React.FC<PropsRooms> = ({ rooms, joinRoom,deleteRoom }) 
   const { conn, setConn } = useContext(Websocket_Ctx) as WebContext
   const router = useRouter()
 
-  // console.log('room',rooms,'UserId', user.userId, 'Username', user.username)
   return (
     <div className='mt-6  '>
       <div className='flex flex-row justify-center content-center items-center'>

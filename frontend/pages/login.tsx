@@ -24,8 +24,10 @@ export default function Login() {
   }
 
 
-  useEffect(() => {
+  console.log(`The URL is: ${process.env.API_URL}`)
+  console.log(`The URL with NEXT is: ${process.env.API_URL}`)
 
+  useEffect(() => {
     }, [])
   return (
     <div className='flex items-center justify-center min-w-full min-h-screen'>

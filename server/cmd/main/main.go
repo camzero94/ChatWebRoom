@@ -16,17 +16,15 @@ func init() {
 
 var r *gin.Engine
 
-func main() {
 
+func main() {
   // db:= os.Getenv("HOST_BACKEND")
   // fmt.Println("DB: ",db)
 
 
 	r = gin.Default()
-
-	//Allow CORS
 	config := cors.DefaultConfig()
-  config.AllowOrigins = []string{"http://localhost:3000", "http://localhost:8080", "http://localhost:3001","http://room.camzerocol.com","https://room.camzerocol.com"}
+  	config.AllowOrigins = []string{"http://localhost:3000", "http://localhost:8080", "http://localhost:3001","http://room.camzerocol.com","https://room.camzerocol.com"}
 	config.AllowCredentials = true
 	r.Use(cors.New(config))
 

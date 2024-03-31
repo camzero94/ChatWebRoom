@@ -1,6 +1,6 @@
 pipeline {
     agent any // Use any available agent to run the pipeline
-
+    tools { go '1.21.3' }
     stages {
         stage('Build') {
             steps {
