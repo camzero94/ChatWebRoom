@@ -1,0 +1,50 @@
+version: "3"
+services:
+  jenkins:
+    container_name: jenkins 
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: jenkinsblueocean:dev
+    restart: unless-stopped 
+    environment:
+      - DOCKER_HOST=tcp://docker:2376
+      - DOCKER_CERT_PATH=/certs/client
+      - DOCKER_TLS_VERIFY=1
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins-data:/var/jenkins_home
+      - jenkins-docker-certs:/certs/client:ro
+    networks:
+      - jenkinsNet
+
+  socat:
+      container_name: socat
+      image: alpine/socat
+      restart: always
+      ports:
+        - 127.0.0.1:2376:2375
+      command: tcp-listen:2375,fork,reuseaddr unix-connect:/var/run/docker.sock
+      networks:
+        - jenkinsNet
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+
+volumes:
+  jenkins-data:
+  jenkins-docker-certs:
+
+networks:
+  jenkinsNet:
+    name: jenkinsNet 
+    driver: bridge
+
+
+# docker run -d --restart=always -p 127.0.0.1:2376:2375 --network jenkins -v /var/run/docker.sock:/var/run/docker.sock alpine/socat tcp-listen:2375,fork,reuseaddr unix-connect:/var/run/docker.sock
+# docker inspect <container_id> | grep IPAddress
+
+
+
+

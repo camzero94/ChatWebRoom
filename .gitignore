@@ -1,4 +1,4 @@
 /server/.env
 /frontend/.next
-/jenkins
+# /jenkins
 .env

@@ -1,6 +1,8 @@
 pipeline {
     agent any // Use any available agent to run the pipeline
-    tools { go '1.21.3' }
+    triggers {
+        pollSCM '*/2 * * * *'
+      }
     stages {
         stage('Build') {
             steps {
